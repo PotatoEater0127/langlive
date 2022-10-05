@@ -1,6 +1,6 @@
 import React from "react";
 
-export function Candidates() {
+export function Participants() {
   return (
     <div>
       <h2>參與抽獎名單</h2>
