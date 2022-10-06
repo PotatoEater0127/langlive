@@ -10,4 +10,8 @@ export function formatTime(milliseconds) {
   return `${HH}:${mm}:${ss}`;
 }
 
-export const countDownStatusEnum = { IDLE: "IDLE", COUNTING: "COUNTING" };
+export const countDownStatusEnum = {
+  IDLE: "IDLE",
+  COUNTING: "COUNTING",
+  PAUSE: "PAUSE",
+};

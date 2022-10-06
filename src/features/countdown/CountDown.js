@@ -17,14 +17,16 @@ export function CountDown() {
   const currentTime = useSelector(selectCurrentTime);
   const status = useSelector(selectStatus);
 
-  const { COUNTING, IDLE } = countDownStatusEnum;
+  const { IDLE, COUNTING, PAUSE } = countDownStatusEnum;
+  const isIdle = status === IDLE;
+  const isPause = status === PAUSE;
   const isCounting = status === COUNTING;
   const isInputValid = isFinite(inputTime) && inputTime > 0;
   const isInputDisabled = !isInputValid || isCounting;
 
   useEffect(() => {
     const tickUnit = 1000; // 以1秒鐘為倒數計時單位
-    let timer = null;
+    let timer;
     if (isCounting) {
       if (currentTime >= tickUnit) {
         timer = setTimeout(() => {
@@ -46,6 +48,14 @@ export function CountDown() {
     dispatch(setCountStatus(COUNTING));
   };
 
+  const onToggle = () => {
+    if (isCounting) {
+      dispatch(setCountStatus(PAUSE));
+    } else if (isPause) {
+      dispatch(setCountStatus(COUNTING));
+    }
+  };
+
   return (
     <div>
       <h2>抽獎時間</h2>
@@ -61,10 +71,18 @@ export function CountDown() {
         }}
       />
       分鐘
-      <button disabled={isInputDisabled} onClick={onSet}>
-        設定
-      </button>
-      <button onClick={() => setSpeed(speed * 2)}>加速</button>
+      {isIdle ? (
+        <button disabled={isInputDisabled} onClick={onSet}>
+          開始
+        </button>
+      ) : (
+        <>
+          <button disabled={isPause} onClick={() => setSpeed(speed * 2)}>
+            加速
+          </button>
+          <button onClick={onToggle}>{isCounting ? "暫停" : "繼續"}</button>
+        </>
+      )}
       <div>{formatTime(currentTime)}</div>
     </div>
   );

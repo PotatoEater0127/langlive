@@ -12,13 +12,14 @@ function App() {
 
   return (
     <div className="App">
-      {!isFinished && (
+      {isFinished ? (
+        <LotteryResult />
+      ) : (
         <>
           <CountDown />
           <Participants />
         </>
       )}
-      {isFinished && <LotteryResult />}
     </div>
   );
 }
