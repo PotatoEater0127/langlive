@@ -15,7 +15,7 @@ export const participantsSlice = createSlice({
   name: "participants",
   initialState,
   reducers: {
-    setWinner: (state) => {
+    decideWinner: (state) => {
       const randomIndex = Math.floor(Math.random() * state.list.length);
       state.winner = state.list[randomIndex];
     },
@@ -30,8 +30,9 @@ export const participantsSlice = createSlice({
   },
 });
 
-export const { setWinner, clearWinner } = participantsSlice.actions;
+export const { decideWinner, clearWinner } = participantsSlice.actions;
 
 export const selectList = (state) => state.participants.list;
+export const selectWinner = (state) => state.participants.winner;
 
 export default participantsSlice.reducer;

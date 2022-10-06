@@ -1,34 +1,49 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrent, tick, selectCurrentTime } from "./countDownSlice";
-import { formatTime } from "./utils";
+import { decideWinner } from "../participants/participantsSlice";
+import {
+  setCurrentTime,
+  tick,
+  selectCurrentTime,
+  selectStatus,
+  setCountStatus,
+} from "./countDownSlice";
+import { formatTime, countDownStatusEnum } from "./utils";
 
 export function CountDown() {
   const [inputTime, setInputTime] = useState(0);
+  const [speed, setSpeed] = useState(1);
   const dispatch = useDispatch();
   const currentTime = useSelector(selectCurrentTime);
+  const status = useSelector(selectStatus);
 
-  const isValidInput = isFinite(inputTime) && inputTime > 0;
-  const isCounting = currentTime > 0;
-  const isDisabled = !isValidInput || isCounting;
+  const { COUNTING, IDLE } = countDownStatusEnum;
+  const isCounting = status === COUNTING;
+  const isInputValid = isFinite(inputTime) && inputTime > 0;
+  const isInputDisabled = !isInputValid || isCounting;
 
   useEffect(() => {
-    // 以1秒鐘為倒數計時單位
-    const tickUnit = 1000;
+    const tickUnit = 1000; // 以1秒鐘為倒數計時單位
     let timer = null;
-    if (currentTime >= tickUnit) {
-      timer = setTimeout(() => {
-        dispatch(tick(tickUnit));
-      }, tickUnit);
+    if (isCounting) {
+      if (currentTime >= tickUnit) {
+        timer = setTimeout(() => {
+          dispatch(tick(tickUnit));
+        }, tickUnit / speed);
+      } else {
+        dispatch(decideWinner());
+        dispatch(setCountStatus(IDLE));
+      }
     }
     return () => clearTimeout(timer);
-  }, [currentTime, dispatch]);
+  }, [currentTime, speed, isCounting, IDLE, dispatch]);
 
   const onSet = () => {
-    // 以1分鐘為輸入單位，轉換成毫秒
+    // 以分鐘為輸入單位，轉換成毫秒
     const unit = 60000;
     setInputTime(0);
-    dispatch(setCurrent(inputTime * unit));
+    dispatch(setCurrentTime(inputTime * unit));
+    dispatch(setCountStatus(COUNTING));
   };
 
   return (
@@ -46,9 +61,10 @@ export function CountDown() {
         }}
       />
       分鐘
-      <button disabled={isDisabled} onClick={onSet}>
+      <button disabled={isInputDisabled} onClick={onSet}>
         設定
       </button>
+      <button onClick={() => setSpeed(speed * 2)}>加速</button>
       <div>{formatTime(currentTime)}</div>
     </div>
   );
