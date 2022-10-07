@@ -40,7 +40,8 @@ export function CountDown() {
     return () => clearTimeout(timer);
   }, [currentTime, speed, isCounting, IDLE, dispatch]);
 
-  const onSet = () => {
+  const onSet = (e) => {
+    e.preventDefault();
     // 以分鐘為輸入單位，轉換成毫秒
     const unit = 60000;
     setInputTime(0);
@@ -48,7 +49,8 @@ export function CountDown() {
     dispatch(setCountStatus(COUNTING));
   };
 
-  const onToggle = () => {
+  const onToggle = (e) => {
+    e.preventDefault();
     if (isCounting) {
       dispatch(setCountStatus(PAUSE));
     } else if (isPause) {
@@ -56,38 +58,59 @@ export function CountDown() {
     }
   };
 
-  return (
-    <div>
-      <h2>抽獎時間</h2>
-      <input
-        type="number"
-        min="0"
-        value={String(inputTime)} // 轉成字串以避免leading zeros，參考https://tinyurl.com/5cu2xsup
-        onChange={(e) => {
-          setInputTime(e.target.value);
-        }}
-        onBlur={({ target: { value } }) => {
-          setInputTime(Math.floor(value));
-        }}
-      />
-      分鐘
-      {isIdle ? (
+  const renderButtons = () => {
+    return isIdle ? (
+      <button
+        className="button is-primary"
+        disabled={isInputDisabled}
+        onClick={onSet}
+      >
+        開始
+      </button>
+    ) : (
+      <>
         <button
-          className="button is-primary"
-          disabled={isInputDisabled}
-          onClick={onSet}
+          className="button is-success"
+          disabled={isPause}
+          onClick={(e) => {
+            e.preventDefault();
+            setSpeed(speed * 2);
+          }}
         >
-          開始
+          加速
         </button>
-      ) : (
-        <>
-          <button disabled={isPause} onClick={() => setSpeed(speed * 2)}>
-            加速
-          </button>
-          <button onClick={onToggle}>{isCounting ? "暫停" : "繼續"}</button>
-        </>
-      )}
-      <div>{formatTime(currentTime)}</div>
-    </div>
+        <button className="button is-warning ml-1" onClick={onToggle}>
+          {isCounting ? "暫停" : "繼續"}
+        </button>
+      </>
+    );
+  };
+
+  return (
+    <form className="card p-1">
+      <h1 className="is-size-1 m-1">抽獎時間</h1>
+      <div className="field has-addons is-justify-content-center p-2">
+        <div className="control">
+          <input
+            className="input"
+            type="number"
+            min="0"
+            value={String(inputTime)} // 轉成字串以避免leading zeros，參考https://tinyurl.com/5cu2xsup
+            onChange={(e) => {
+              setInputTime(e.target.value);
+            }}
+            onBlur={({ target: { value } }) => {
+              setInputTime(Math.floor(value));
+            }}
+          />
+        </div>
+        <div className="control">
+          <span className="button is-static">分鐘</span>
+        </div>
+        <div className="ml-2">{renderButtons()}</div>
+      </div>
+
+      <div style={{ fontSize: "6rem" }}>{formatTime(currentTime)}</div>
+    </form>
   );
 }

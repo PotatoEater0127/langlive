@@ -17,10 +17,10 @@ function App() {
         <LotteryResult />
       ) : (
         <div className="columns is-centered is-vcentered pt-4 pb-4">
-          <section className="column is-4">
+          <section className="column is-4-fullhd is-5-widescreen">
             <CountDown />
           </section>
-          <section className="column is-4">
+          <section className="column is-4-fullhd is-5-widescreen">
             <Participants />
           </section>
         </div>
