@@ -1,0 +1,22 @@
+.list {
+  max-height: 80vh;
+  overflow: auto;
+}
+.picture {
+  width: 30%;
+  min-width: 64px;
+  max-width: 128px;
+}
+.stretch {
+  width: 100%;
+}
+
+/* for mobile screen */
+@media (max-width: 768px) {
+  .list {
+    max-height: 45vh;
+  }
+  .picture {
+    max-width: 96px;
+  }
+}

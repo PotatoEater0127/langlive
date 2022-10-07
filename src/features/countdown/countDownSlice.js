@@ -4,7 +4,7 @@ import { countDownStatusEnum } from "./utils";
 const { IDLE } = countDownStatusEnum;
 
 const initialState = {
-  current: 0, // 目前開獎剩餘時間(milliseconds)
+  currentTime: 0, // 距離開獎剩餘時間(milliseconds)
   status: IDLE,
 };
 
@@ -12,14 +12,17 @@ export const countDownSlice = createSlice({
   name: "countDown",
   initialState,
   reducers: {
+    // 設定抽獎剩餘時間
     setCurrentTime: (state, action) => {
-      state.current = action.payload;
+      state.currentTime = action.payload;
     },
+    // 設定倒數狀態
     setCountStatus: (state, action) => {
       state.status = action.payload;
     },
+    // 倒數時間
     tick: (state, action) => {
-      state.current -= action.payload;
+      state.currentTime -= action.payload;
     },
   },
 });
@@ -27,7 +30,7 @@ export const countDownSlice = createSlice({
 export const { setCurrentTime, setCountStatus, stopCount, tick } =
   countDownSlice.actions;
 
-export const selectCurrentTime = (state) => state.countDown.current;
+export const selectCurrentTime = (state) => state.countDown.currentTime;
 export const selectStatus = (state) => state.countDown.status;
 
 export default countDownSlice.reducer;

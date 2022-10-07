@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { CountDown } from "./features/countdown/CountDown";
 import { Participants } from "./features/participants/Participants";
@@ -10,6 +10,8 @@ import "bulma/css/bulma.min.css";
 function App() {
   const winner = useSelector(selectWinner);
   const isFinished = winner != null;
+
+  const [isParticipantsHidden, setIsParticipantsHidden] = useState(false);
 
   return (
     <div className="App">

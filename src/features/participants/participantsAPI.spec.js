@@ -2,7 +2,6 @@ import { fetchParticipants } from "./participantsAPI";
 
 describe("fetch participants", () => {
   let participants;
-
   beforeAll(async () => {
     participants = await fetchParticipants();
   });

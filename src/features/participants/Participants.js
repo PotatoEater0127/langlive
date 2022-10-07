@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { selectList, fetchParticipants } from "./participantsSlice";
 import { useSelector, useDispatch } from "react-redux";
+import styles from "./Participants.module.css";
 
 export function Participants() {
   const dispatch = useDispatch();
@@ -13,14 +14,14 @@ export function Participants() {
   return (
     <div className="panel is-primary">
       <h2 className="panel-heading">參與抽獎名單</h2>
-      <ol style={{ maxHeight: "80vh", overflow: "auto" }}>
+      <ol className={styles.list}>
         {participants.map(({ name, image, key }) => (
           <li className="panel-block" key={key}>
-            <figure className="is-flex" style={{ width: "100%" }}>
+            <figure className={`${styles.stretch} is-flex`}>
               <img
                 alt={`${name} 的使用者圖片`}
                 src={image}
-                style={{ width: "30%", minWidth: "64px", maxWidth: "128px" }}
+                className={styles.picture}
               />
               <figcaption className="is-flex is-align-items-center is-size-5-widescreen	">
                 <p className="has-text-left">

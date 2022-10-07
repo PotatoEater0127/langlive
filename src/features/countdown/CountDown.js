@@ -35,6 +35,7 @@ export function CountDown() {
           dispatch(tick(tickUnit));
         }, tickUnit / speed);
       } else {
+        // 時間到
         dispatch(decideWinner());
         dispatch(setCountStatus(IDLE));
       }
@@ -91,7 +92,7 @@ export function CountDown() {
   return (
     <form className="card p-3">
       <h1 className="is-size-1 is-size-2-mobile m-1">抽獎時間</h1>
-      <div className="field has-addons is-justify-content-center p-2">
+      <div className="field has-addons is-justify-content-center mt-4 mb-0">
         {isIdle && (
           <>
             <div className="control">

@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearWinner, selectWinner } from "../participants/participantsSlice";
+import styles from "./LotteryResult.module.css";
 
 export function LotteryResult() {
   const winner = useSelector(selectWinner);
@@ -12,12 +13,7 @@ export function LotteryResult() {
         <img
           alt={`${winner.name} 的使用者圖片`}
           src={winner.image}
-          style={{
-            maxWidth: "512px",
-            border: "1px solid",
-            borderColor: "#00d1b2",
-            borderRadius: "50%",
-          }}
+          className={styles.picture}
         />
         <figcaption className="is-size-3">
           <span className="is-size-4">{`編號：${winner.key}`}</span>
