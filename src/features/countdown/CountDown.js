@@ -9,6 +9,7 @@ import {
   setCountStatus,
 } from "./countDownSlice";
 import { formatTime, countDownStatusEnum } from "./utils";
+import styles from "./CountDown.module.css";
 
 export function CountDown() {
   const [inputTime, setInputTime] = useState(0);
@@ -24,6 +25,7 @@ export function CountDown() {
   const isInputValid = isFinite(inputTime) && inputTime > 0;
   const isInputDisabled = !isInputValid || isCounting;
 
+  // 倒數計時
   useEffect(() => {
     const tickUnit = 1000; // 以1秒鐘為倒數計時單位
     let timer;
@@ -44,11 +46,11 @@ export function CountDown() {
     e.preventDefault();
     // 以分鐘為輸入單位，轉換成毫秒
     const unit = 60000;
-    setInputTime(0);
     dispatch(setCurrentTime(inputTime * unit));
     dispatch(setCountStatus(COUNTING));
   };
 
+  // 暫停或繼續
   const onToggle = (e) => {
     e.preventDefault();
     if (isCounting) {
@@ -87,30 +89,35 @@ export function CountDown() {
   };
 
   return (
-    <form className="card p-1">
-      <h1 className="is-size-1 m-1">抽獎時間</h1>
+    <form className="card p-3">
+      <h1 className="is-size-1 is-size-2-mobile m-1">抽獎時間</h1>
       <div className="field has-addons is-justify-content-center p-2">
-        <div className="control">
-          <input
-            className="input"
-            type="number"
-            min="0"
-            value={String(inputTime)} // 轉成字串以避免leading zeros，參考https://tinyurl.com/5cu2xsup
-            onChange={(e) => {
-              setInputTime(e.target.value);
-            }}
-            onBlur={({ target: { value } }) => {
-              setInputTime(Math.floor(value));
-            }}
-          />
-        </div>
-        <div className="control">
-          <span className="button is-static">分鐘</span>
-        </div>
+        {isIdle && (
+          <>
+            <div className="control">
+              <input
+                className="input"
+                type="number"
+                min="0"
+                value={inputTime}
+                onChange={(e) => {
+                  setInputTime(e.target.value);
+                }}
+                onBlur={({ target: { value } }) => {
+                  setInputTime(Math.floor(value));
+                }}
+              />
+            </div>
+            <div className="control">
+              <span className="button is-static">分鐘</span>
+            </div>
+          </>
+        )}
+
         <div className="ml-2">{renderButtons()}</div>
       </div>
 
-      <div style={{ fontSize: "6rem" }}>{formatTime(currentTime)}</div>
+      <div className={styles.clock}>{formatTime(currentTime)}</div>
     </form>
   );
 }

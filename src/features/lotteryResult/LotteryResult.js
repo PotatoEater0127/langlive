@@ -26,7 +26,7 @@ export function LotteryResult() {
         </figcaption>
       </figure>
       <button
-        className="button is-primary"
+        className="button is-primary mt-2"
         onClick={() => dispatch(clearWinner())}
       >
         再來一次

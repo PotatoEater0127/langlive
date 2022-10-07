@@ -1,0 +1,10 @@
+.clock {
+  font-size: 5.5rem;
+}
+
+/* for mobile screen */
+@media (max-width: 768px) {
+  .clock {
+    font-size: 4rem;
+  }
+}
