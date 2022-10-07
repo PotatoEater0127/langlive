@@ -5,6 +5,7 @@ import { Participants } from "./features/participants/Participants";
 import { LotteryResult } from "./features/lotteryResult/LotteryResult";
 import { selectWinner } from "./features/participants/participantsSlice";
 import "./App.css";
+import "bulma/css/bulma.min.css";
 
 function App() {
   const winner = useSelector(selectWinner);
@@ -15,10 +16,14 @@ function App() {
       {isFinished ? (
         <LotteryResult />
       ) : (
-        <>
-          <CountDown />
-          <Participants />
-        </>
+        <div className="columns is-centered is-vcentered pt-4 pb-4">
+          <section className="column is-4">
+            <CountDown />
+          </section>
+          <section className="column is-4">
+            <Participants />
+          </section>
+        </div>
       )}
     </div>
   );

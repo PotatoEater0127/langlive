@@ -11,20 +11,27 @@ export function Participants() {
   }, [dispatch]);
 
   return (
-    <div>
-      <h2>參與抽獎名單</h2>
-      <div style={{ height: "70vh", overflow: "auto" }}>
+    <div className="panel is-primary">
+      <h2 className="panel-heading">參與抽獎名單</h2>
+      <ol style={{ maxHeight: "80vh", overflow: "auto" }}>
         {participants.map(({ name, image, key }) => (
-          <div key={key}>
-            <img
-              alt={`${name} 的使用者圖片`}
-              src={image}
-              style={{ width: "20%" }}
-            />
-            <div>{name}</div>
-          </div>
+          <li className="panel-block" key={key}>
+            <figure className="is-flex" style={{ width: "100%" }}>
+              <img
+                alt={`${name} 的使用者圖片`}
+                src={image}
+                style={{ width: "30%", minWidth: "64px", maxWidth: "128px" }}
+              />
+              <figcaption className="is-flex is-align-items-center is-size-5-widescreen	">
+                <p className="has-text-left">
+                  <span className="is-size-6-widescreen">{`編號：${key}`}</span>
+                  <br /> {name}
+                </p>
+              </figcaption>
+            </figure>
+          </li>
         ))}
-      </div>
+      </ol>
     </div>
   );
 }

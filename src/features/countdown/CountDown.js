@@ -72,7 +72,11 @@ export function CountDown() {
       />
       分鐘
       {isIdle ? (
-        <button disabled={isInputDisabled} onClick={onSet}>
+        <button
+          className="button is-primary"
+          disabled={isInputDisabled}
+          onClick={onSet}
+        >
           開始
         </button>
       ) : (
